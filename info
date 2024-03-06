@@ -1,0 +1,92 @@
+A servernek milyen kérdésekre kell válaszolnia?
+
+Milyen jármûvek vannak a hálózaton?  (elkérheti az oldal)
+get_node_list
+
+Adott azonosítójú jármû pozíciója (oldal kéri)
+get_position_node
+
+Minden regisztrált jármû pozíciója? (oldal kéri)
+get_position_all_nodes
+
+új jármû regisztrálása (server küldi)
+Ha elõször jelenik meg a hálózaton egy jármû
+set_new_node
+
+
+
+A szerver a hálózaton megtalálható jármûvek adatait folyamatosan monitorozza, azokat egy tömbben tárolja az azonosítójukat, és az aktuális pozíciójukat. Ezt lekéri a ROS hálózatról 500ms-ekenként.
+
+Ha a klienstõl kérés érkezik, akkor válaszban elküldi az infókat.
+A kliens feldolgozza a tömböt. Készít belõle egy objektumlistát és kiteszi az egyes objektumokat a térképre.
+
+
+
+ 
+
+
+ 7.-ik tizedesben 6 számjegy eltérés kb. 5cm eltérést jelent
+ 
+ 
+ 1. mérési pont a háromszög csúcsánál 20cm-el lejjebb (RTK-val mérve)
+ lat:46.88123950
+ lon:16.83927867 
+ 
+ térkép referencia: 
+ lat: 46.88120504
+ lon: 16.83931813 
+ 
+ 2, mérési pont
+ 
+ 
+ 
+ 
+ 
+ 
+Mi kell:
+Websocket server összeállítása (fix ip az alhálózaton, python és ROS2, a topic infókat kéri le)
+Térkép szerver a belsõ hálózaton (az én gépem vagy lehet netrõl)
+Egy kliens, amelyen meg lehet jeleníteni a térképet. (ez lehet a térképszerver is, de jobb lenne külön gép.) 
+ 
+Nem kaptam még ikonokat a robotokhoz (png, svg), és pályázat képeket, hivatkozó szöveget.
+
+A térképi felület:
+- jármûvek listáját elõállítani (elõre definiált lista: a node-okat megadjuk egy config file-ban)
+    - a jármûvek listája egy json config fileból jöjjön (megnevezés, pozíció topic neve, jármû típusa, hozzárendelt ikon, stb.) (ebben a listában választható, hogy bólyát rakunk le, elküldjük a parancsot, középre állítjuk a jármûvet)
+- a térkép folyamatosan kérdezi a szervertõl a robotok pozícióját (a topic-ok állapotát)
+    - visszakapja az azonosítókhoz társított pozíciókat
+- bólya ikonok lerakása  kattintással a térképi felületen (több is lehet, bólyák felkeresése) pontsorrend megadása
+    - összeállítja a parancsot egy gomb megnyomásával elküldi a hálózatra
+- a térképrõl egy eszköz célra küldésének módja (egy vagy több koordinátával)
+    - a ROS hálózatra a websocektserver ki tudja küldeni, csak hogy legyen 
+Kidolgozni a célpozíció továbbítását a robot felé:
+-  meghívunk egy topic-ot ami külön van definiálva minden robothoz
+    a tartalma egy json tömb, ha egy koordináta párt tartalmaz, akkor egy pontra megy
+    ha többet, akkor a bejárási sorrendben található meg benne az útvonal
+
+
+Tesztelés:
+rögzített ros bag-ek visszajátszása a hálózatra és a jelek feldolgozása a server által
+
+
+ 
+Gépek: 
+ Egy különálló szerver a hálózaton amely le tudja kérni a topic infókat és futtatni tudja a websocket servert.
+ Egy webszerver, amely tatalmazza a képeket.
+ Egy kliens, amelyen meg lehet jeleníteni a térképet.
+ 
+ 
+ Topic lista
+ 
+ kell, hogy hány eszköz van a hálózaton  (fix eszközökkel dolgozunk)
+ adott eszköz pozíciója
+ 
+ Milyen parnccsal lehet elküldeni a robotot pozícióra?
+ Robot leállítása 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

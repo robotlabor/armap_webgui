@@ -1,0 +1,369 @@
+<html>
+	<head>
+		<title>JKK - ARMap</title>
+
+		<!--  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY" async defer></script> -->
+		<script src="https://maps.googleapis.com/maps/api/js" async defer></script> 
+    
+    <script src="js/3rd/proj4.js"></script>
+    
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    
+		<!--  <link rel="stylesheet" href="../Leaflet/dist/leaflet.css" />
+		<script type="text/javascript" src="../Leaflet/dist/leaflet-src.js"></script>-->
+    
+    <link rel="stylesheet" href="css/design.css" />
+
+   
+	<!-- 	<link
+			rel="stylesheet"
+			href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+			integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+			crossorigin=""
+		/>
+		<script
+			src="https://unpkg.com/leaflet@1.7.1/dist/leaflet-src.js"
+			integrity="sha512-I5Hd7FcJ9rZkH7uD01G3AjsuzFy3gqz7HIJvzFZGFt2mrCS4Piw9bYZvCgUE0aiJuiZFYIJIwpbNnDIM6ohTrg=="
+			crossorigin=""
+		></script>
+
+        -->
+        
+         	<link
+			rel="stylesheet"
+			href="js/3rd/leaflet.css"
+			crossorigin=""
+		/>
+		<script
+			src="js/3rd/leaflet-src.js"
+			crossorigin=""
+		></script>
+
+        
+    <link rel="stylesheet" href="css/leaflet.extra-markers.min.css">    
+    
+    <!-- Latest compiled and minified CSS 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    -->
+    <link rel="stylesheet" href="css/bootstrap.css">
+
+	<script src="js/config.js"></script>
+
+    <!-- jQuery library 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    -->
+    <script src="js/3rd/jquery.min.js"></script>
+    
+    <!-- Popper JS 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    -->
+    <script src="js/3rd/popper.min.js"></script>
+                   
+    <!-- Latest compiled JavaScript 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> 
+    -->
+    <script src="js/3rd/bootstrap.min.js"></script> 
+                    
+    <script src="js/leaflet.extra-markers.min.js"></script>
+    
+    <!-- Leaflet.GoogleMutant JS 
+		<script src="https://unpkg.com/leaflet.gridlayer.googlemutant@latest/dist/Leaflet.GoogleMutant.js"></script>
+    -->
+       	<script src="js/3rd/Leaflet.GoogleMutant.js"></script>
+    
+    <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />   -->
+	  <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" /> -->
+	<!--  <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster-src.js"></script>        -->
+      <script src="js/3rd/leaflet.markercluster-src.js"></script> 
+    
+    <script type="text/javascript" src="js\L.LatLng.UTM.js"></script>
+    <script src="js/bojamap.js"></script>
+    <script src="js/initmap.js"></script>
+    <script src="js/wss.js"></script>
+    
+		<style>
+			#map {
+				/*    margin: 32px; */
+				/*    width: auto; */
+				/*    overflow: visible; */
+				position: absolute;
+				left: 0em;
+				right: 0;
+				height: 100vh;
+			}
+			body {
+				margin: 0;
+			}
+
+			.transparent-tooltip {
+				background: transparent;
+				border: 0px solid rgb(255, 255, 255);
+  				box-shadow: none;
+			}
+			
+			.transparent-tooltip::before {
+				border: none;
+			}
+
+		</style>
+    
+	</head>
+	<body>
+  	<header>
+		
+		<div class="navbar-container rounded">
+
+			<div class="float-right">
+				<div class="d-flex">
+					<ul class="nav nav-pills flex-column">
+						<li class="nav-item" data-toggle="tooltip" title="Rétegek" data-placement="left">
+							<a href="#" data-target="#NavTab_Layers" data-toggle="tab" class="nav-link small text-uppercase">
+								<img src="/img/icon_layers.png">
+							</a>
+						</li>
+						<li class="nav-item" data-toggle="tooltip" title="Fiókom" data-placement="left">
+							<a href="#" data-target="#NavTab_User" data-toggle="tab" class="nav-link small text-uppercase">
+								<img src="/img/icon_user.png">
+							</a>
+						</li>
+						<li class="nav-item" data-toggle="tooltip" title="Jármű/Eszköz kezelés" data-placement="left">
+							<a href="#" data-target="#NavTab_Addvechicle" data-toggle="tab" class="nav-link small text-uppercase">
+								<img src="/img/icon_addvechicle.png">
+							</a>
+						</li>
+						<li class="nav-item" data-toggle="tooltip" title="Információk" data-placement="left">
+							<a href="#" data-target="#NavTab_Info" data-toggle="tab" class="nav-link small text-uppercase">
+								<img src="/img/icon_info.png">
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="tab-content float-left">
+
+				<div id="NavTab_Layers" class="tab-pane">
+					<h3>
+						Rétegek
+					</h3>
+					<div class="padding20">
+						<div id="LayersList" data-loaded="false">Rétegek betöltése folyamatban...</div>
+					</div>
+				</div>
+
+				<div id="NavTab_User" class="tab-pane">
+					<h3>
+						Saját profil
+					</h3>
+
+					<div class="padding20 paddingt10" data-shownon="" style="text-align: center;">
+						<img src="img/ajax-loader-button.gif"> &nbsp; Egy pillanat...
+					</div>
+
+					<div class="padding20 paddingt10" data-shownon="guest" style="display:none">
+							
+						<div class="text-center">
+
+							<div class="color-white marginb10 font-size-12">
+								Bizonyos funkciók használatához saját fiók megléte szükséges. Ha már van regisztrációja, jelentkezzen be újra!
+							</div>
+
+							<div class="btn-group text-left">
+
+								<a href="#" class="btn btn-light LoginModal" style="border-right: 1px solid #000; margin-right: 1px;">
+									Bejelentkezés
+								</a>
+
+								<a href="#" class="btn btn-light RegisterModal">
+									Regisztráció
+								</a>
+
+							</div>
+
+						</div>
+
+					</div>
+
+					<div class="padding20 paddingt10" data-shownon="user" style="display:none">
+							
+						<div class="text-center">
+
+							<div style="margin-bottom: 20px;">
+								Üdvözöljük <span class="ProfileData" data-column="name"></span>,
+								Ön <span class="FarmerLevelLabel"></span>.<br>
+							</div>
+
+							<div class="btn-group text-left">
+
+								<a href="#" class="btn btn-light ProfileEditModal" style="border-right: 1px solid #000; margin-right: 1px;">
+									Adatmódosítás
+								</a>
+
+								<a href="#" class="btn btn-light LogoutModal">
+									Kijelentkezés
+								</a>
+
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+				<div id="NavTab_Addvechicle" class="tab-pane">
+					<h3>
+						Jármű/Eszköz kezelés
+					</h3>
+					<div class="padding20 paddingt10">
+							
+						<div class="text-center">
+
+							<div class="color-white marginb10 font-size-12">
+								A térképen megjelenő járművek és eszközök beállításai.
+							</div>
+
+							<div class="padding20">
+								<div id="DeviceList" class="devicelist" data-loaded="false">Járművek betöltése folyamatban...</div>
+							</div>
+
+							<div class="btn-group text-left">
+								
+								<a href="#" class="btn btn-light erasebuoys">
+									Bóják törlése
+								</a>
+								
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+
+				<div id="NavTab_Info" class="tab-pane">
+					<h3>
+						Információk
+					</h3>
+					<div class="padding20 paddingt10">
+						<div id="Panel_Informations" class="marginb10"></div>
+						<a href="#" class="Hide_Informations_Panel important-color-white font-size-11">Nem akarom többet automatikusan látni</a>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="clearfix"></div>
+
+		</div>
+
+	</header>
+	<section id="Logo"> <img src="img/maplogo_k.png" usemap="#workmap"> </section>
+		<map name="workmap">
+			<area shape="rect" coords="100,0,300,126" alt="JKK" target="_blank" href="https://jkk-web.sze.hu/">
+			<area shape="rect" coords="0,0,100,126" alt="ZalaZone" target="_blank" href="https://zalazone.hu/">
+		  </map>
+
+	  <div id="map" class="map"></div>
+    
+  <section id="CookieInformant" style="display:none">
+		<div>
+			Az alkalmazás a felhasználói élmény fokozása érdekében sütiket használ.
+			<a href="#">További információk</a>
+		</div>
+		<a href="#" class="btn btn-light AcceptCookies btn-sm"><span class="glyphicon glyphicon-ok" style="color:#6ab645"></span></a>
+	</section>
+
+	<section id="LayerInformant" style="display:none">
+		<img src="/img/icon_layers.png" style="height:18px"> 
+		<div>
+			<span id="ActiveLayerName"></span>
+		</div>
+	</section>
+
+    
+		<script type="text/javascript">
+      // The object to store markers  
+      var markers = {};   // we store here the buoy markers placed on the map.
+      //var ownMarkers = {};            
+      //var positionsArr = Array();
+			      
+      //check1(positionsArr);
+      
+	  var mapopts =  {
+		crs: L.CRS.EPSG900913
+		//crs: L.CRS.EPSG3857
+		};
+	var resource_timer;
+
+	var map = L.map("map", mapopts).setView([ 46.881221192227234, 16.839284483308276], 21);
+
+    initMapLayers(map);  
+      //University of Győr center
+      //var map = L.map("map", mapopts).setView([ 47.69391377, 17.62794542], 17);
+
+      // smartcity center
+			//var map = L.map("map", mapopts).setView([ 46.894398572430276, 16.83486654767192], 17);
+
+      // university track center
+ //     var map = L.map("map", mapopts).setView([ 46.880921192227234, 16.839284483308276], 17);
+      //var map = L.map("map", mapopts).setView([ 46.88961258333368, 16.841251372243278], 17);
+      
+      
+      /*map.on('zoomend', function(){
+          //getDataOnMapChange();
+      });*/
+                  
+      /*map.on('dragend', function(){
+          //getDataOnMapChange()
+      }); */
+                   
+      
+      //map.on('click', addMarker);
+
+      BuildLayersList();
+      
+      var carMarker = L.marker([46.88961258333368, 16.841251372243278], {icon: carIcon}).addTo(map);
+        
+
+      //send_req();
+
+      map.on('click', function(e){
+        var coord = e.latlng;
+        var lat = coord.lat;
+        var lng = coord.lng;
+        var latlng = L.latLng( lat, lng);
+        
+        //console.log("You clicked the map at latitude: " + lat + " and longitude: " + lng);
+        //console.log("In UTM"+ latlng.utm().zone+latlng.utm().band + " x:" + latlng.utm().x + " and y: " + latlng.utm().y);
+        //alert("You clicked the map at \n latitude: " + lat + " and longitude: " + lng+ "\nIn UTM"+ latlng.utm().zone+latlng.utm().band + " x:" + latlng.utm().x + " and y: " + latlng.utm().y);          
+              
+		addMarker(e, mapIcons['buoy'].icon);
+
+        //carMarker.setLatLng(latlng);          
+      });
+    
+        
+
+    /* 
+    * Workaround for 1px lines appearing in some browsers due to fractional transforms
+    * and resulting anti-aliasing.
+    * https://github.com/Leaflet/Leaflet/issues/3575
+    */
+    (function(){
+        var originalInitTile = L.GridLayer.prototype._initTile
+        L.GridLayer.include({
+            _initTile: function (tile) {
+                originalInitTile.call(this, tile);
+
+                var tileSize = this.getTileSize();
+
+                tile.style.width = tileSize.x + 1 + 'px';
+                tile.style.height = tileSize.y + 1 + 'px';
+            }
+        });
+    })()
+
+		</script>
+	</body>
+</html>
